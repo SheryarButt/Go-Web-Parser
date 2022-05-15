@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"io"
 
 	"golang.org/x/net/html"
@@ -19,8 +18,11 @@ func Parse(r io.Reader) (err error) {
 }
 
 func depthFirstSearch(n *html.Node) {
+	if n.Type == html.ElementNode && n.Data == "a" {
+		parseLink(n)
+	}
+
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		fmt.Println(c.Data)
 		depthFirstSearch(c)
 	}
 }
