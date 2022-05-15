@@ -2,21 +2,31 @@ package main
 
 import (
 	"Task_Home24/parser"
-	"strings"
+	"fmt"
+	"net/http"
 )
 
-var exampleHTML = `
-<html>
-<body>
-  <h1>Hello!</h1>
-  <a href="/other-page1">A link to another page1</a>
-</body>
-</html>
-`
-
+// main is the entry point of the program.
 func main() {
-	r := strings.NewReader(exampleHTML)
-	err := parser.Parse(r)
+
+	url := "https://www.w3schools.com/html/html_forms.asp"
+	fmt.Printf("HTML code of %s ...\n", url)
+	resp, err := http.Get(url)
+
+	// handle the error if there is one
+	if err != nil {
+		panic(err)
+	}
+
+	// doing this now so it won't be forgotten
+	defer resp.Body.Close()
+
+	err = parser.Parse(resp.Body)
+
+	fmt.Println(parser.GetLinks())
+	fmt.Println(parser.GetHeadings())
+	fmt.Println(parser.GetForm())
+
 	if err != nil {
 		panic(err)
 	}
