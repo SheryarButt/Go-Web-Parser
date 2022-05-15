@@ -27,6 +27,8 @@ func depthFirstSearch(n *html.Node) {
 			parseLink(n)
 		case "h1", "h2", "h3", "h4", "h5", "h6":
 			parseHeadings(n)
+		case "form":
+			parseForm(n)
 		}
 	}
 
