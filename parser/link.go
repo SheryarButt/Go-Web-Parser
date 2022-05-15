@@ -1,8 +1,6 @@
 package parser
 
 import (
-	"strings"
-
 	"golang.org/x/net/html"
 )
 
@@ -27,23 +25,6 @@ func parseLink(n *html.Node) {
 			links = append(links, link)
 		}
 	}
-}
-
-// getText returns the text of the node.
-func getText(n *html.Node) string {
-	var b strings.Builder
-	if n.Type == html.TextNode {
-		return n.Data
-	}
-
-	if n.Type != html.ElementNode {
-		return ""
-	}
-
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		b.WriteString(getText(c))
-	}
-	return strings.Join(strings.Fields(b.String()), " ")
 }
 
 // GetLinks returns the links found in the web page.
