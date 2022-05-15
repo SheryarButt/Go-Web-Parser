@@ -22,12 +22,12 @@ func main() {
 	defer resp.Body.Close()
 
 	err = parser.Parse(resp.Body)
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Println(parser.GetLinks())
 	fmt.Println(parser.GetHeadings())
 	fmt.Println(parser.GetForm())
 
-	if err != nil {
-		panic(err)
-	}
 }
