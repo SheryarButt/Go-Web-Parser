@@ -16,9 +16,8 @@ type Link struct {
 	Status bool // true if the link is valid, false if it is not valid.
 }
 
-var internalLinks uint
-var externalActiveLinks uint
-var externalDeadLinks uint
+// counters for the links found in the web page.
+var internalLinks, externalActiveLinks, externalDeadLinks uint
 
 // links is a global variable that stores all the links found in the web page.
 var links []Link
@@ -41,22 +40,26 @@ func parseLink(n *html.Node, wg *sync.WaitGroup) {
 
 // getType returns true if the link is an external link, false if it is an internal link.
 func getType(s string) bool {
-	if s[0] == 'h' {
-		return true
+	if len(s) > 0 {
+		if s[0] == 'h' {
+			return true
+		}
+		internalLinks++
 	}
-	internalLinks++
 	return false
 }
 
 // getStatus returns true if the link is valid, false if it is not valid.
 func getStatus(s string) bool {
-	if s[0] == 'h' {
-		_, err := http.Get(s)
-		if err == nil {
-			externalActiveLinks++
-			return true
+	if len(s) > 0 {
+		if s[0] == 'h' {
+			_, err := http.Get(s)
+			if err == nil {
+				externalActiveLinks++
+				return true
+			}
+			externalDeadLinks++
 		}
-		externalDeadLinks++
 	}
 	return false
 }
@@ -66,6 +69,7 @@ func GetLinks() []Link {
 	return links
 }
 
+// GetLinkCount returns the number of links found in the web page.
 func GetLinkCount() (uint, uint, uint) {
 	return internalLinks, externalActiveLinks, externalDeadLinks
 }
