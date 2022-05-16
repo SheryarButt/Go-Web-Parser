@@ -41,7 +41,8 @@ func depthFirstSearch(n *html.Node) {
 			wg.Add(1)
 			go parseHeadings(n, &wg)
 		case "form":
-			go parseForm(n)
+			wg.Add(1)
+			go parseForm(n, &wg)
 		case "title":
 			go parseTitle(n)
 		}
