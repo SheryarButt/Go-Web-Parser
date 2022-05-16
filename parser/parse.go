@@ -2,10 +2,15 @@ package parser
 
 import (
 	"io"
+	"reflect"
 	"strings"
+	"sync"
 
 	"golang.org/x/net/html"
 )
+
+// wg is a global variable that stores the wait group.
+var wg sync.WaitGroup
 
 // Parse parses the web page and returns error if the parsing fails.
 func Parse(r io.Reader) (err error) {
@@ -14,21 +19,31 @@ func Parse(r io.Reader) (err error) {
 	if err != nil {
 		return err
 	}
-
 	depthFirstSearch(doc)
+	if reflect.DeepEqual(doctype, Doctype{}) {
+		doctype = ifUnknown()
+	}
+	wg.Wait()
 	return nil
 }
 
 // depthFirstSearch traverses the web page and calls parseLink for each link node.
 func depthFirstSearch(n *html.Node) {
-	if n.Type == html.ElementNode {
+	if n.Type == html.DoctypeNode {
+		wg.Add(1)
+		go docTypeParser(n, &wg)
+	} else if n.Type == html.ElementNode {
 		switch n.Data {
 		case "a":
-			parseLink(n)
+			wg.Add(1)
+			go parseLink(n, &wg)
 		case "h1", "h2", "h3", "h4", "h5", "h6":
-			parseHeadings(n)
+			wg.Add(1)
+			go parseHeadings(n, &wg)
 		case "form":
-			parseForm(n)
+			go parseForm(n)
+		case "title":
+			go parseTitle(n)
 		}
 	}
 
