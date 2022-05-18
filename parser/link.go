@@ -12,8 +12,8 @@ import (
 type Link struct {
 	Href   string
 	Text   string
-	Type   bool // true if it is an External link, false if it is an Internal link.
-	Status bool // true if the link is valid, false if it is not valid.
+	Type   string
+	Status string // true if the link is valid, false if it is not valid.
 }
 
 // counters for the links found in the web page.
@@ -38,30 +38,31 @@ func parseLink(n *html.Node, parsed *ParsedInformation, wg *sync.WaitGroup) {
 	wg.Done()
 }
 
-// getType returns true if the link is an external link, false if it is an internal link.
-func getType(s string, parsed *ParsedInformation) bool {
+// getType returns the type of the link.
+func getType(s string, parsed *ParsedInformation) string {
 	if len(s) > 0 {
 		if s[0] == 'h' {
-			return true
+			return "External"
 		}
 		parsed.Count.InternalLinks++
 	}
-	return false
+	return "Internal"
 }
 
-// getStatus returns true if the link is valid, false if it is not valid.
-func getStatus(s string, parsed *ParsedInformation) bool {
+// getStatus returns the status of the link.
+func getStatus(s string, parsed *ParsedInformation) string {
 	if len(s) > 0 {
 		if s[0] == 'h' {
 			_, err := http.Get(s)
 			if err == nil {
 				parsed.Count.ExternalActiveLinks++
-				return true
+				return "Accessible"
 			}
 			parsed.Count.ExternalDeadLinks++
+			return "Inaccessible"
 		}
 	}
-	return false
+	return "Internal" // Not performing accessibility check for internal links.
 }
 
 // GetLinks returns the links found in the web page.
