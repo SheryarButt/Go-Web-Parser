@@ -6,8 +6,9 @@ import (
 
 func Register() *http.ServeMux {
 	mux := http.NewServeMux()
-	go mux.HandleFunc("/ping", ping())
-	go mux.HandleFunc("/", process())
+	go mux.HandleFunc("/", helloWorld())
+	go mux.HandleFunc("/getCounts", processCounts())
+	go mux.HandleFunc("/getDetails", processDetails())
 
 	return mux
 }
