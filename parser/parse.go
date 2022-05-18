@@ -46,7 +46,7 @@ func Parse(r io.Reader, parsed *ParsedInformation) (err error) {
 		parsed.Doctype = ifUnknown()
 	}
 	wg.Wait()
-	GetHeadingCount(parsed) // Get heading counts froms the parsed information.
+	GetHeadingCount(parsed) // Get heading counts from the parsed information.
 	return nil
 }
 

@@ -20,7 +20,7 @@ Assuming you already have git and go installed.
    ```
    git clone https://github.com/SheryarButt/Task_Home24.git
    ```
-2. Install dependancies using the following command
+2. Install dependencies using the following command
 
    ```
    cd Task_Home24
@@ -60,7 +60,7 @@ Assuming you already have git and go installed.
 
 ## Pages used for testing
 
- Use the following links (if required) to verify integrity of the application:
+ Test the application with the following links:
 
 - https://www.w3.org/People/mimasa/test/xhtml/media-types/test8.html
 - https://www.w3.org/People/mimasa/test/xhtml/media-types/test7.html

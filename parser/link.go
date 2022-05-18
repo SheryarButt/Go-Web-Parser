@@ -7,7 +7,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-// Link respresents a link in a web page.
+// Link represents a link in a web page.
 // Sample: <a href="...."> link text </a>
 type Link struct {
 	Href   string
