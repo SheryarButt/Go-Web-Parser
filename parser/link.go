@@ -17,59 +17,59 @@ type Link struct {
 }
 
 // counters for the links found in the web page.
-var internalLinks, externalActiveLinks, externalDeadLinks uint
+// var internalLinks, externalActiveLinks, externalDeadLinks uint
 
 // links is a global variable that stores all the links found in the web page.
-var links []Link
+// var links []Link
 
 // parseLink parses the link node and adds it to the links slice.
-func parseLink(n *html.Node, wg *sync.WaitGroup) {
+func parseLink(n *html.Node, parsed *ParsedInformation, wg *sync.WaitGroup) {
 	for _, a := range n.Attr {
 		if a.Key == "href" {
 			link := Link{
 				Href:   a.Val,
 				Text:   getText(n),
-				Type:   getType(a.Val),
-				Status: getStatus(a.Val),
+				Type:   getType(a.Val, parsed),
+				Status: getStatus(a.Val, parsed),
 			}
-			links = append(links, link)
+			parsed.Links = append(parsed.Links, link)
 		}
 	}
 	wg.Done()
 }
 
 // getType returns true if the link is an external link, false if it is an internal link.
-func getType(s string) bool {
+func getType(s string, parsed *ParsedInformation) bool {
 	if len(s) > 0 {
 		if s[0] == 'h' {
 			return true
 		}
-		internalLinks++
+		parsed.Count.InternalLinks++
 	}
 	return false
 }
 
 // getStatus returns true if the link is valid, false if it is not valid.
-func getStatus(s string) bool {
+func getStatus(s string, parsed *ParsedInformation) bool {
 	if len(s) > 0 {
 		if s[0] == 'h' {
 			_, err := http.Get(s)
 			if err == nil {
-				externalActiveLinks++
+				parsed.Count.ExternalActiveLinks++
 				return true
 			}
-			externalDeadLinks++
+			parsed.Count.ExternalDeadLinks++
 		}
 	}
 	return false
 }
 
 // GetLinks returns the links found in the web page.
-func GetLinks() []Link {
-	return links
-}
+// func GetLinks() []Link {
+// 	return links
+// }
 
 // GetLinkCount returns the number of links found in the web page.
-func GetLinkCount() (uint, uint, uint) {
-	return internalLinks, externalActiveLinks, externalDeadLinks
-}
+// func GetLinkCount() (uint, uint, uint) {
+// 	return internalLinks, externalActiveLinks, externalDeadLinks
+// }

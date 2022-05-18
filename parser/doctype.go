@@ -13,12 +13,12 @@ type Doctype struct {
 }
 
 // receiver function to return the html version.
-func (d *Doctype) String() string {
-	return d.Version
-}
+// func (d *Doctype) String() string {
+// 	return d.Version
+// }
 
 // doctype is a global variable that stores the doctype.
-var doctype Doctype
+// var doctype Doctype
 
 // doctypes is a map that stores the doctype and its version.
 var doctypes = make(map[string]string)
@@ -36,7 +36,7 @@ func init() {
 }
 
 // docTypeParser parses the doctype node.
-func docTypeParser(n *html.Node, wg *sync.WaitGroup) {
+func docTypeParser(n *html.Node, parsed *ParsedInformation, wg *sync.WaitGroup) {
 	var Value string
 	if n.Attr != nil {
 		var p string
@@ -54,7 +54,7 @@ func docTypeParser(n *html.Node, wg *sync.WaitGroup) {
 		Value = n.Data
 	}
 
-	doctype = Doctype{
+	parsed.Doctype = Doctype{
 		Value:   Value,
 		Version: getDocType(Value),
 	}
@@ -72,9 +72,9 @@ func getDocType(s string) string {
 }
 
 // GetDoctype returns the doctype of the web page.
-func GetDoctype() Doctype {
-	return doctype
-}
+// func GetDoctype() Doctype {
+// 	return doctype
+// }
 
 // ifUnknown returns unknown doctype if it is nil.
 func ifUnknown() Doctype {

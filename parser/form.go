@@ -7,32 +7,32 @@ import (
 )
 
 // hasForm is a global variable that stores whether the web page contains a form.
-var hasForm bool
+// var hasForm bool
 
 // parseForm parses the form node and sets the global variable hasForm to true.
-func parseForm(n *html.Node, wg *sync.WaitGroup) {
+func parseForm(n *html.Node, hasForm *bool, wg *sync.WaitGroup) {
 	if n.Type == html.ElementNode && n.Data == "form" {
-		findLogin(n)
+		findLogin(n, hasForm)
 	}
 	wg.Done()
 }
 
 // findLogin finds password field in form to check if the form contains a login form.
-func findLogin(n *html.Node) {
+func findLogin(n *html.Node, hasForm *bool) {
 	if n.Attr != nil {
 		for _, a := range n.Attr {
 			if a.Key == "type" && a.Val == "hidden" { // Using hidden type to identify password field in the form.
-				hasForm = true
+				*hasForm = true
 				return
 			}
 		}
 	}
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		findLogin(c)
+		findLogin(c, hasForm)
 	}
 }
 
 // getForm returns the form found in the web page.
-func GetForm() bool {
-	return hasForm
-}
+// func GetForm() bool {
+// 	return hasForm
+// }
