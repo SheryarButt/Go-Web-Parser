@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// ping handles the request for the web page.
+// helloWorld is a handler function that returns a response to the requests made to base url.
 func helloWorld() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {

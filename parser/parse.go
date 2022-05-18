@@ -9,6 +9,7 @@ import (
 	"golang.org/x/net/html"
 )
 
+// ParsedInformation stores the information parsed from the web page.
 type ParsedInformation struct {
 	Doctype   Doctype
 	Title     string
@@ -18,6 +19,7 @@ type ParsedInformation struct {
 	Count     Counts
 }
 
+// Counts stores the counts of headings and links.
 type Counts struct {
 	H1                  uint
 	H2                  uint
@@ -40,11 +42,11 @@ func Parse(r io.Reader, parsed *ParsedInformation) (err error) {
 		return err
 	}
 	depthFirstSearch(doc, parsed)
-	if reflect.DeepEqual(parsed.Doctype, Doctype{}) {
+	if reflect.DeepEqual(parsed.Doctype, Doctype{}) { // Set the default doctype if it is not set.
 		parsed.Doctype = ifUnknown()
 	}
 	wg.Wait()
-	GetHeadingCount(parsed)
+	GetHeadingCount(parsed) // Get heading counts froms the parsed information.
 	return nil
 }
 

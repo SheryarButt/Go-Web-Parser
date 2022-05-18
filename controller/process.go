@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-// process handles the request for the web page.
+// processCounts handles the request from /getCounts endpoint.
 func processCounts() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet && r.URL.Query().Get("url") != "" {
@@ -72,6 +72,7 @@ func processCounts() http.HandlerFunc {
 	}
 }
 
+// processDetails handles the request from /getDetails endpoint.
 func processDetails() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet && r.URL.Query().Get("url") != "" {
