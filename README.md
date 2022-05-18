@@ -66,3 +66,11 @@ Assuming you already have git and go installed.
 - https://www.w3.org/People/mimasa/test/xhtml/media-types/test7.html
 - https://www.w3.org/People/mimasa/test/xhtml/media-types/test6.html
 - https://www.w3.org/People/mimasa/test/xhtml/media-types/test4.html
+
+## Hardware/Software Setup
+
+- Dell Latitude 7470
+- Intel(R) Core(TM) i5-6300U
+- 16.0 GB RAM
+- Windows 10 Pro v21H2, 64 Bit
+- Go v13.
