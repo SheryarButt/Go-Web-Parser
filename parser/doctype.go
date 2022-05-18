@@ -12,15 +12,7 @@ type Doctype struct {
 	Version string
 }
 
-// receiver function to return the html version.
-// func (d *Doctype) String() string {
-// 	return d.Version
-// }
-
-// doctype is a global variable that stores the doctype.
-// var doctype Doctype
-
-// doctypes is a map that stores the doctype and its version.
+// doctypes is a map that stores the doctype string and its version.
 var doctypes = make(map[string]string)
 
 // init initializes the doctypes map.
@@ -35,7 +27,7 @@ func init() {
 	doctypes["html"] = "HTML 5"
 }
 
-// docTypeParser parses the doctype node.
+// docTypeParser parses the doctype node and saves it to the ParsedInformation struct.
 func docTypeParser(n *html.Node, parsed *ParsedInformation, wg *sync.WaitGroup) {
 	var Value string
 	if n.Attr != nil {
@@ -70,11 +62,6 @@ func getDocType(s string) string {
 	}
 	return "Unknown"
 }
-
-// GetDoctype returns the doctype of the web page.
-// func GetDoctype() Doctype {
-// 	return doctype
-// }
 
 // ifUnknown returns unknown doctype if it is nil.
 func ifUnknown() Doctype {

@@ -6,10 +6,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-// hasForm is a global variable that stores whether the web page contains a form.
-// var hasForm bool
-
-// parseForm parses the form node and sets the global variable hasForm to true.
+// parseForm parses the form node and updates the information in ParsedInformation struct.
 func parseForm(n *html.Node, hasForm *bool, wg *sync.WaitGroup) {
 	if n.Type == html.ElementNode && n.Data == "form" {
 		findLogin(n, hasForm)
@@ -31,8 +28,3 @@ func findLogin(n *html.Node, hasForm *bool) {
 		findLogin(c, hasForm)
 	}
 }
-
-// getForm returns the form found in the web page.
-// func GetForm() bool {
-// 	return hasForm
-// }

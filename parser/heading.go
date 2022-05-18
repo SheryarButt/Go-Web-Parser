@@ -12,13 +12,7 @@ type Headings struct {
 	Text  string
 }
 
-// headings is a global variable that stores all the headings found in the web page.
-// var headings []Headings
-
-// Global variables for counting each headings.
-// var h1, h2, h3, h4, h5, h6 uint
-
-// parseHeadings parses the heading node and adds it to the headings slice.
+// parseHeadings parses the heading node and adds it to the ParsedInformation struct.
 func parseHeadings(n *html.Node, parsed *ParsedInformation, wg *sync.WaitGroup) {
 	if string(n.Data[0]) == "h" {
 		heading := Headings{
@@ -30,12 +24,7 @@ func parseHeadings(n *html.Node, parsed *ParsedInformation, wg *sync.WaitGroup) 
 	wg.Done()
 }
 
-// GetHeadings returns the headings found in the web page.
-// func GetHeadings() []Headings {
-// 	return headings
-// }
-
-// GerHeadingCounts returns the number of each headings found in the web page.
+// GerHeadingCounts returns the number of each headings found in the web page to the ParsedInformation struct.
 func GetHeadingCount(parsed *ParsedInformation) {
 
 	for _, h := range parsed.Headings {

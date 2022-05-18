@@ -13,16 +13,10 @@ type Link struct {
 	Href   string
 	Text   string
 	Type   string
-	Status string // true if the link is valid, false if it is not valid.
+	Status string
 }
 
-// counters for the links found in the web page.
-// var internalLinks, externalActiveLinks, externalDeadLinks uint
-
-// links is a global variable that stores all the links found in the web page.
-// var links []Link
-
-// parseLink parses the link node and adds it to the links slice.
+// parseLink parses the link node and adds it to the ParsedInformation struct.
 func parseLink(n *html.Node, parsed *ParsedInformation, wg *sync.WaitGroup) {
 	for _, a := range n.Attr {
 		if a.Key == "href" {
@@ -64,13 +58,3 @@ func getStatus(s string, parsed *ParsedInformation) string {
 	}
 	return "Internal" // Not performing accessibility check for internal links.
 }
-
-// GetLinks returns the links found in the web page.
-// func GetLinks() []Link {
-// 	return links
-// }
-
-// GetLinkCount returns the number of links found in the web page.
-// func GetLinkCount() (uint, uint, uint) {
-// 	return internalLinks, externalActiveLinks, externalDeadLinks
-// }
